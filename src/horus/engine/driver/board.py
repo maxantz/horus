@@ -174,11 +174,11 @@ class Board(object):
                 self._send_command("M70T" + str(index + 1))
 
     def lasers_on(self):
-        for i in xrange(self._laser_number):
+        for i in range(self._laser_number):
             self.laser_on(i)
 
     def lasers_off(self):
-        for i in xrange(self._laser_number):
+        for i in range(self._laser_number):
             self.laser_off(i)
 
     def ldr_sensor(self, pin):
@@ -248,14 +248,14 @@ class Board(object):
         """Obtain list of serial devices"""
         baselist = []
         if system == 'Windows':
-            import _winreg
+            import winreg
             try:
-                key = _winreg.OpenKey(
-                    _winreg.HKEY_LOCAL_MACHINE, "HARDWARE\\DEVICEMAP\\SERIALCOMM")
+                key = winreg.OpenKey(
+                    winreg.HKEY_LOCAL_MACHINE, "HARDWARE\\DEVICEMAP\\SERIALCOMM")
                 i = 0
                 while True:
                     try:
-                        values = _winreg.EnumValue(key, i)
+                        values = winreg.EnumValue(key, i)
                     except:
                         return baselist
                     if 'USBSER' in values[0] or \

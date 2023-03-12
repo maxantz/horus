@@ -6,7 +6,7 @@ __copyright__ = 'Copyright (C) 2014-2016 Mundo Reader S.L.'
 __license__ = 'GNU General Public License v2 http://www.gnu.org/licenses/gpl2.html'
 
 
-import md5
+from hashlib import md5
 import cv2
 import numpy as np
 

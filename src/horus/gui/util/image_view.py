@@ -22,11 +22,11 @@ class ImageView(wx.Panel):
 
         self.default_image = wx.Image(resources.get_path_for_image("nusb.png"))
         self.image = self.default_image
-        self.bitmap = wx.BitmapFromImage(self.default_image)
+        self.bitmap = wx.Bitmap(self.default_image)
 
         self.black = black
         self.frame = None
-        self.current_size = self.GetSizeTuple()
+        self.current_size = self.GetSize()
         self.SetDoubleBuffered(True)
 
         self.Bind(wx.EVT_SHOW, self.on_show)

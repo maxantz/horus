@@ -132,7 +132,7 @@ class MainWindow(wx.Frame):
         self.menu_scanning_panel = self.menu_scanning.AppendCheckItem(wx.NewId(), _("Panel"))
         self.menu_scanning_video = self.menu_scanning.AppendCheckItem(wx.NewId(), _("Video"))
         self.menu_scanning_scene = self.menu_scanning.AppendCheckItem(wx.NewId(), _("Scene"))
-        self.menu_view.AppendMenu(wx.NewId(), _("Scanning"), self.menu_scanning)
+        self.menu_view.Append(wx.NewId(), _("Scanning"), self.menu_scanning)
         self.menu_mode_advanced = self.menu_view.AppendCheckItem(wx.NewId(), _("Advanced mode"))
         self.menu_bar.Append(self.menu_view, _("View"))
 
@@ -323,12 +323,12 @@ class MainWindow(wx.Frame):
         if status:
             self.toolbar.toolbar.Enable()
             self.toolbar.combo.Enable()
-            for i in xrange(self.menu_bar.GetMenuCount()):
+            for i in range(self.menu_bar.GetMenuCount()):
                 self.menu_bar.EnableTop(i, True)
         else:
             self.toolbar.toolbar.Disable()
             self.toolbar.combo.Disable()
-            for i in xrange(self.menu_bar.GetMenuCount()):
+            for i in range(self.menu_bar.GetMenuCount()):
                 self.menu_bar.EnableTop(i, False)
 
     def append_last_file(self, last_file):
@@ -596,7 +596,7 @@ class MainWindow(wx.Frame):
         current_video_id = profile.settings['camera_id']
         if len(video_list) > 0:
             if current_video_id not in video_list:
-                profile.settings['camera_id'] = unicode(video_list[0])
+                profile.settings['camera_id'] = video_list[0]
 
         if len(profile.settings['camera_id']):
             driver.camera.camera_id = int(profile.settings['camera_id'][-1:])

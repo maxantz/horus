@@ -38,7 +38,7 @@ class Workbench(wx.Panel):
         vsbox.Add(self.panels_collection, 1, wx.ALL | wx.EXPAND, 0)
         self.scroll_panel.SetSizer(vsbox)
         vsbox.Fit(self.scroll_panel)
-        panel_size = self.scroll_panel.GetSize()[0] + wx.SystemSettings_GetMetric(wx.SYS_VSCROLL_X)
+        panel_size = self.scroll_panel.GetSize()[0] + wx.SystemSettings.GetMetric(wx.SYS_VSCROLL_X)
         self.scroll_panel.SetMinSize((panel_size, -1))
         self.scroll_panel.Disable()
 
