@@ -23,8 +23,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 from sys import platform as _platform
-if _platform != 'darwin':
-    glutInit()  # Hack; required before glut can be called. Not required for all OS.
+#if _platform != 'darwin':
+#    glutInit()  # Hack; required before glut can be called. Not required for all OS.
 
 
 class GLReferenceCounter(object):
