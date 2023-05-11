@@ -528,7 +528,7 @@ class TextBox(ControlPanel):
         hbox = wx.BoxSizer(wx.HORIZONTAL)
         hbox.Add(label, 0, wx.RIGHT | wx.ALIGN_CENTER_VERTICAL, 5)
         hbox.AddStretchSpacer()
-        hbox.Add(self.control, 0, wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL)
+        hbox.Add(self.control, 0, wx.RIGHT | wx.ALIGN_CENTER_VERTICAL)
         self.SetSizer(hbox)
         self.Layout()
 

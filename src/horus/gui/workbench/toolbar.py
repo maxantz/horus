@@ -85,42 +85,41 @@ class ToolbarConnection(Toolbar):
         ret, result = response
         if not ret:
             if isinstance(result, WrongFirmware):
-                self._show_message(_(result), wx.ICON_INFORMATION,
+                self._show_message(_(str(result)), wx.ICON_INFORMATION,
                                    _("The board has the wrong firmware or an invalid baud rate.\n"
                                      "Please select your board and press \"Upload firmware\""))
                 self.update_status(False)
                 self.GetParent().launch_preferences()
             elif isinstance(result, BoardNotConnected):
-                self._show_message(_(result), wx.ICON_INFORMATION,
+                self._show_message(_(str(result)), wx.ICON_INFORMATION,
                                    _("The board is not connected.\n"
                                      "Please connect your board and select a valid Serial name"))
                 self.update_status(False)
                 self.GetParent().launch_preferences(basic=True)
             elif isinstance(result, OldFirmware):
-                self._show_message(_(result), wx.ICON_INFORMATION,
+                self._show_message(_(str(result)), wx.ICON_INFORMATION,
                                    _("The board has and old firmware.\n"
                                      "Please select your board and press \"Upload firmware\""))
                 self.update_status(False)
                 self.GetParent().launch_preferences()
             elif isinstance(result, WrongCamera):
-                self._show_message(_(result), wx.ICON_INFORMATION,
+                self._show_message(_(str(result)), wx.ICON_INFORMATION,
                                    _("You probably have selected the wrong camera.\n"
                                      "Please select another Camera ID"))
                 self.update_status(False)
                 self.GetParent().launch_preferences(basic=True)
             elif isinstance(result, CameraNotConnected):
-                self._show_message(_(result), wx.ICON_ERROR,
+                self._show_message(_(str(result)), wx.ICON_ERROR,
                                    _("Please plug your camera in and try to connect again"))
             elif isinstance(result, InvalidVideo):
-                self._show_message(_(result), wx.ICON_ERROR,
+                self._show_message(_(str(result)), wx.ICON_ERROR,
                                    _("Unplug and plug your camera USB cable "
                                      "and try to connect again"))
             elif isinstance(result, WrongDriver):
                 if system.is_windows():
-                    self._show_message(
-                        _(result), wx.ICON_ERROR,
-                        _("Please, download and install the camera driver: \n"
-                          "http://support.logitech.com/en_us/product/hd-webcam-c270"))
+                    self._show_message(_(str(result)), wx.ICON_ERROR,
+                                       _("Please, download and install the camera driver: \n"
+                                         "http://support.logitech.com/en_us/product/hd-webcam-c270"))
 
         self.update_status(driver.is_connected)
         self.GetParent().enable_gui(True)
@@ -142,7 +141,7 @@ class ToolbarConnection(Toolbar):
             driver.board.set_unplug_callback(None)
             driver.camera.set_unplug_callback(None)
 
-    def _show_message(self, title, style, desc):
+    def _show_message(self, title: str, style, desc: str):
         dlg = wx.MessageDialog(self, desc, title, wx.OK | style)
         dlg.ShowModal()
         dlg.Destroy()

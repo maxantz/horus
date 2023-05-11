@@ -37,7 +37,7 @@ class ImageView(wx.Panel):
         self.hide = False
 
     def on_show(self, event):
-        if event.GetShow():
+        if event.IsShown():
             self.GetParent().Layout()
             self.Layout()
 
@@ -49,7 +49,10 @@ class ImageView(wx.Panel):
                 dc.Clear()
             else:
                 dc = wx.PaintDC(self)
-            dc.DrawBitmap(self.bitmap, self.x_offset, self.y_offset)
+            _point = wx.Point()
+            _point.x = int(self.x_offset)
+            _point.y = int(self.y_offset)
+            dc.DrawBitmap(self.bitmap, _point)
 
     def on_resize(self, size):
         new_size = size.GetSize()
@@ -76,7 +79,7 @@ class ImageView(wx.Panel):
     def refresh_bitmap(self):
         (w, h, self.x_offset, self.y_offset) = self.get_best_size()
         if w > 0 and h > 0:
-            self.bitmap = wx.BitmapFromImage(self.image.Scale(w, h, self.quality))
+            self.bitmap = wx.Bitmap(self.image.Scale(int(w), int(h), self.quality))
             self.Refresh()
 
     def get_best_size(self):

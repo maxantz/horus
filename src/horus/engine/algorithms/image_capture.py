@@ -5,6 +5,9 @@ __author__ = 'Jesús Arroyo Torrens <jesus.arroyo@bq.com>'
 __copyright__ = 'Copyright (C) 2014-2016 Mundo Reader S.L.'
 __license__ = 'GNU General Public License v2 http://www.gnu.org/licenses/gpl2.html'
 
+import os
+import time
+
 import cv2
 
 from horus import Singleton
@@ -152,6 +155,7 @@ class ImageCapture(object):
             image_background = self.capture_image(flush=flush)
         # Capture laser
         image = self._capture_laser(index)
+        cv2.imwrite(os.path.join(os.path.expanduser('~'), 'Desktop', time.strftime("%Y%m%d-%H%M%S.bmp")), image)
         if image_background is not None:
             if image is not None:
                 image = cv2.subtract(image, image_background)

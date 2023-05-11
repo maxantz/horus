@@ -29,13 +29,13 @@ class ScanningWorkbench(Workbench):
         self.toolbar_scan = toolbar_scan
 
         # Elements
-        self.play_tool = self.toolbar_scan.AddLabelTool(
+        self.play_tool = self.toolbar_scan.AddTool(
             wx.NewId(), _("Play"),
             wx.Bitmap(resources.get_path_for_image("play.png")), shortHelp=_("Play"))
-        self.stop_tool = self.toolbar_scan.AddLabelTool(
+        self.stop_tool = self.toolbar_scan.AddTool(
             wx.NewId(), _("Stop"),
             wx.Bitmap(resources.get_path_for_image("stop.png")), shortHelp=_("Stop"))
-        self.pause_tool = self.toolbar_scan.AddLabelTool(
+        self.pause_tool = self.toolbar_scan.AddTool(
             wx.NewId(), _("Pause"),
             wx.Bitmap(resources.get_path_for_image("pause.png")), shortHelp=_("Pause"))
         self.toolbar_scan.Realize()
@@ -138,8 +138,12 @@ class ScanningWorkbench(Workbench):
         ciclop_scan.motor_step = profile.settings['motor_step_scanning']
         ciclop_scan.motor_speed = profile.settings['motor_speed_scanning']
         ciclop_scan.motor_acceleration = profile.settings['motor_acceleration_scanning']
-        ciclop_scan.color = struct.unpack(
-            'BBB', profile.settings['point_cloud_color'].decode('hex'))
+        #ciclop_scan.color = struct.unpack('BBB', profile.settings['point_cloud_color'].encode('hex'))
+        ciclop_scan.color = [
+            int(profile.settings['point_cloud_color'][i: i + 2], 16) for i in range(
+                0,
+                len(profile.settings['point_cloud_color']), 2)
+        ]
         ciclop_scan.set_scan_sleep(profile.settings['scan_sleep'])
         point_cloud_roi.set_show_center(profile.settings['show_center'])
         point_cloud_roi.set_use_roi(profile.settings['use_roi'])

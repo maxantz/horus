@@ -62,7 +62,7 @@ class Board(object):
         self._is_connected = False
         self._motor_enabled = False
         self._motor_position = 0
-        self._motor_speed = 0
+        self._motor_speed = 1
         self._motor_acceleration = 0
         self._motor_direction = 1
         self._laser_number = 2
@@ -77,7 +77,7 @@ class Board(object):
             self._serial_port = serial.Serial(self.serial_name, self.baud_rate, timeout=2)
             if self._serial_port.isOpen():
                 self._reset()  # Force Reset and flush
-                version = self._serial_port.readline()
+                version = self._serial_port.readline().decode('utf-8')
                 if "Horus 0.1 ['$' for help]" in version:
                     raise OldFirmware()
                 elif "Horus 0.2 ['$' for help]" in version:
@@ -195,7 +195,7 @@ class Board(object):
         else:
             self._send_command(req, callback, read_lines)
 
-    def _send_command(self, req, callback=None, read_lines=False):
+    def _send_command(self, req: str, callback=None, read_lines=False):
         """Sends the request and returns the response"""
         ret = ''
         if self._is_connected and req != '':
@@ -203,12 +203,13 @@ class Board(object):
                 try:
                     self._serial_port.flushInput()
                     self._serial_port.flushOutput()
-                    self._serial_port.write(req + "\r\n")
+                    self._serial_port.write(req.encode('utf-8') + b'\r\n')
                     while req != '~' and req != '!' and ret == '':
                         ret = self.read(read_lines)
                         time.sleep(0.01)
                     self._success()
-                except:
+                except Exception as e:
+                    print("Board Exception: "+str(e))
                     if hasattr(self, '_serial_port'):
                         if callback is not None:
                             callback(ret)
@@ -219,9 +220,9 @@ class Board(object):
 
     def read(self, read_lines=False):
         if read_lines:
-            return ''.join(self._serial_port.readlines())
+            return ''.join(self._serial_port.readlines().decode('utf-8'))
         else:
-            return ''.join(self._serial_port.readline())
+            return ''.join(self._serial_port.readline().decode('utf-8'))
 
     def _success(self):
         self._tries = 0
@@ -241,7 +242,7 @@ class Board(object):
     def _reset(self):
         self._serial_port.flushInput()
         self._serial_port.flushOutput()
-        self._serial_port.write("\x18\r\n")  # Ctrl-x
+        self._serial_port.write(b'\x18\r\n')  # Ctrl-x
         self._serial_port.readline()
 
     def get_serial_list(self):

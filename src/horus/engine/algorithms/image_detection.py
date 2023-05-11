@@ -61,7 +61,7 @@ class ImageDetection(object):
         if image is not None:
             h, w, d = image.shape
             if corners is not None:
-                corners = corners.astype(np.int)
+                corners = corners.astype(int)
                 p1 = corners[0][0]
                 p2 = corners[self.pattern.columns - 1][0]
                 p3 = corners[self.pattern.columns * (self.pattern.rows - 1)][0]

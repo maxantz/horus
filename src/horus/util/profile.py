@@ -10,7 +10,7 @@ __license__ = 'GNU General Public License v2 http://www.gnu.org/licenses/gpl2.ht
 import os
 import math
 import sys
-import collections
+import collections.abc
 import json
 import types
 import numpy as np
@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 from horus.util import resources, system
 
 
-class Settings(collections.MutableMapping):
+class Settings(collections.abc.MutableMapping):
 
     def __init__(self):
         self._settings_dict = dict()

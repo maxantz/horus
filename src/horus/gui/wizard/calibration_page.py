@@ -63,7 +63,7 @@ class CalibrationPage(WizardPage):
         self.video_view.set_callback(self.get_image)
 
     def on_show(self, event):
-        if event.GetShow():
+        if event.IsShown():
             driver.board.lasers_off()
             self.update_status(driver.is_connected)
         else:
@@ -124,7 +124,7 @@ class CalibrationPage(WizardPage):
         self.wait_cursor = wx.BusyCursor()
 
     def progress_calibration(self, progress):
-        self.gauge.SetValue(progress)
+        self.gauge.SetValue(int(progress))
 
     def after_calibration(self, response):
         ret, result = response

@@ -74,7 +74,7 @@ class PlatformExtrinsics(MovingCalibration):
         self.x = np.array(self.x)
         self.y = np.array(self.y)
         self.z = np.array(self.z)
-        points = zip(self.x, self.y, self.z)
+        points = list(zip(self.x, self.y, self.z))
 
         if len(points) > 4:
             # Fitting a plane
@@ -171,6 +171,6 @@ def fit_circle(point, normal, points):
     center_point = sF * s + rF * r + np.array(point)
     synthetic = [list(center_point + RiF * np.cos(phi) * r + RiF * np.sin(phi) * s)
                  for phi in np.linspace(0, 2 * np.pi, 50)]
-    [cxTupel, cyTupel, czTupel] = [x for x in zip(*synthetic)]
+    [cxTupel, cyTupel, czTupel] = [x for x in list(zip(*synthetic))]
 
     return center_point, R, [cxTupel, cyTupel, czTupel]

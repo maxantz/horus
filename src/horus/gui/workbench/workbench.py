@@ -89,19 +89,19 @@ class Workbench(wx.Panel):
     def on_connect(self):
         if driver.is_connected:
             self.setup_engine()
-            for _, p in self.pages_collection.iteritems():
+            for _, p in self.pages_collection.items():
                 p.Enable()
             self.on_open()
 
     def on_disconnect(self):
-        for _, p in self.pages_collection.iteritems():
+        for _, p in self.pages_collection.items():
             p.Disable()
         self.on_close()
         self.disable_content()
         self.reset()
 
     def on_show(self, event):
-        if event.GetShow():
+        if event.IsShown():
             if driver.is_connected:
                 self.setup_engine()
                 self.on_open()

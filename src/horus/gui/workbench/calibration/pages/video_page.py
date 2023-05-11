@@ -64,5 +64,6 @@ class VideoPage(Page):
             image = platform_extrinsics.image
         else:
             image = image_capture.capture_pattern()
-            image = image_detection.detect_pattern(image)
+            if image is not None:
+                image = image_detection.detect_pattern(image)
         return image

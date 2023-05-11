@@ -175,9 +175,13 @@ class Camera(object):
     def _check_driver(self):
         """Check correct driver: only for Windows"""
         if system == 'Windows':
-            self.set_exposure(10)
-            frame = self.capture_image(flush=1)
-            mean = sum(cv2.mean(frame)) / 3.0
+            i = 9
+            mean = 255
+            while mean > 200 and i < 100:
+                i += 1
+                self.set_exposure(i)
+                frame = self.capture_image(flush=1)
+                mean = int(sum(cv2.mean(frame)) / 3.0)
             if mean > 200:
                 raise WrongDriver()
 
@@ -200,7 +204,14 @@ class Camera(object):
                             self._capture.read()
                             # Note: Windows needs read() to perform
                             #       the flush instead of grab()
-                ret, image = self._capture.read()
+                ret = None
+                image = None
+                try:
+                    ret, image = self._capture.read()
+                except Exception as e:
+                    print("Failed to capture image " + str(e))
+                    self._reading = False
+                    return self._last_image
                 self._reading = False
                 if ret:
                     if self._rotate:
@@ -242,7 +253,7 @@ class Camera(object):
                     ctl.set_val(self._line(value, 0, self._max_brightness, ctl.min, ctl.max))
                 else:
                     value = int(value) / self._max_brightness
-                    ret = self._capture.set(cv2.cv.CV_CAP_PROP_BRIGHTNESS, value)
+                    ret = self._capture.set(cv2.CAP_PROP_BRIGHTNESS, value)
                     if system == 'Linux' and ret:
                         raise InputOutputError()
                 self._updating = False
@@ -256,8 +267,8 @@ class Camera(object):
                     ctl = self.controls['UVCC_REQ_CONTRAST_ABS']
                     ctl.set_val(self._line(value, 0, self._max_contrast, ctl.min, ctl.max))
                 else:
-                    value = int(value) / self._max_contrast
-                    ret = self._capture.set(cv2.cv.CV_CAP_PROP_CONTRAST, value)
+                    value = int(int(value) / self._max_contrast)
+                    ret = self._capture.set(cv2.CAP_PROP_CONTRAST, value)
                     if system == 'Linux' and ret:
                         raise InputOutputError()
                 self._updating = False
@@ -271,8 +282,8 @@ class Camera(object):
                     ctl = self.controls['UVCC_REQ_SATURATION_ABS']
                     ctl.set_val(self._line(value, 0, self._max_saturation, ctl.min, ctl.max))
                 else:
-                    value = int(value) / self._max_saturation
-                    ret = self._capture.set(cv2.cv.CV_CAP_PROP_SATURATION, value)
+                    value = int(int(value) / self._max_saturation)
+                    ret = self._capture.set(cv2.CAP_PROP_SATURATION, value)
                     if system == 'Linux' and ret:
                         raise InputOutputError()
                 self._updating = False
@@ -291,10 +302,10 @@ class Camera(object):
                     ctl.set_val(value)
                 elif system == 'Windows':
                     value = int(round(-math.log(value) / math.log(2)))
-                    self._capture.set(cv2.cv.CV_CAP_PROP_EXPOSURE, value)
+                    self._capture.set(cv2.CAP_PROP_EXPOSURE, value)
                 else:
-                    value = int(value) / self._max_exposure
-                    ret = self._capture.set(cv2.cv.CV_CAP_PROP_EXPOSURE, value)
+                    value = int(int(value) / self._max_exposure)
+                    ret = self._capture.set(cv2.CAP_PROP_EXPOSURE, value)
                     if system == 'Linux' and ret:
                         raise InputOutputError()
                 self._updating = False
@@ -313,7 +324,7 @@ class Camera(object):
             if self._frame_rate != value:
                 self._frame_rate = value
                 self._updating = True
-                self._capture.set(cv2.cv.CV_CAP_PROP_FPS, value)
+                self._capture.set(cv2.CAP_PROP_FPS, value)
                 self._updating = False
 
     def set_resolution(self, width, height):
@@ -326,14 +337,14 @@ class Camera(object):
                 self._updating = False
 
     def _set_width(self, value):
-        self._capture.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, value)
+        self._capture.set(cv2.CAP_PROP_FRAME_WIDTH, value)
 
     def _set_height(self, value):
-        self._capture.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, value)
+        self._capture.set(cv2.CAP_PROP_FRAME_HEIGHT, value)
 
     def _update_resolution(self):
-        self._width = int(self._capture.get(cv2.cv.CV_CAP_PROP_FRAME_WIDTH))
-        self._height = int(self._capture.get(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT))
+        self._width = int(self._capture.get(cv2.CAP_PROP_FRAME_WIDTH))
+        self._height = int(self._capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
     def get_brightness(self):
         if self._is_connected:
@@ -341,7 +352,7 @@ class Camera(object):
                 ctl = self.controls['UVCC_REQ_BRIGHTNESS_ABS']
                 value = ctl.get_val()
             else:
-                value = self._capture.get(cv2.cv.CV_CAP_PROP_BRIGHTNESS)
+                value = self._capture.get(cv2.CAP_PROP_BRIGHTNESS)
                 value *= self._max_brightness
             return value
 
@@ -352,10 +363,10 @@ class Camera(object):
                 value = ctl.get_val()
                 value /= self._rel_exposure
             elif system == 'Windows':
-                value = self._capture.get(cv2.cv.CV_CAP_PROP_EXPOSURE)
+                value = self._capture.get(cv2.CAP_PROP_EXPOSURE)
                 value = 2 ** -value
             else:
-                value = self._capture.get(cv2.cv.CV_CAP_PROP_EXPOSURE)
+                value = self._capture.get(cv2.CAP_PROP_EXPOSURE)
                 value *= self._max_exposure
             return value
 

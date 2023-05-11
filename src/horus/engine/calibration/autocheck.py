@@ -102,7 +102,7 @@ class Autocheck(Calibration):
             else:
                 self.image = self.image_detection.detect_pattern(image)
             if self._progress_callback is not None:
-                self._progress_callback(i / 3.6)
+                self._progress_callback(int(i / 3.6))
             self.driver.board.motor_move(scan_step)
 
         # Check pattern detection
@@ -123,8 +123,8 @@ class Autocheck(Calibration):
                     raise WrongMotorDirection()
 
         # Move to nearest position
-        x = np.array(patterns_sorted.keys())
-        y = np.array(patterns_sorted.values())
+        x = np.array(list(patterns_sorted.keys()))
+        y = np.array(list(patterns_sorted.values()))
         A = np.vstack([x, np.ones(len(x))]).T
         m, c = np.linalg.lstsq(A, y)[0]
         pos = -c / m % 360

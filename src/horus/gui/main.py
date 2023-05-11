@@ -442,18 +442,18 @@ class MainWindow(wx.Frame):
         self.wait_cursor = wx.BusyCursor()
         self.toolbar.combo.SetValue(name)
         if sys.is_windows():
-            for key, wb in self.workbench.iteritems():
+            for key, wb in self.workbench.items():
                 if wb.name == name:
                     wb.Show()
                     profile.settings['workbench'] = key
-            for key, wb in self.workbench.iteritems():
+            for key, wb in self.workbench.items():
                 if wb.name != name:
                     wb.Hide()
         else:
-            for key, wb in self.workbench.iteritems():
+            for key, wb in self.workbench.items():
                 if wb.name != name:
                     wb.Hide()
-            for key, wb in self.workbench.iteritems():
+            for key, wb in self.workbench.items():
                 if wb.name == name:
                     wb.Show()
                     profile.settings['workbench'] = key
@@ -541,7 +541,7 @@ class MainWindow(wx.Frame):
         dlg.Destroy()
 
     def update_profile_to_all_controls(self):
-        for _, w in self.workbench.iteritems():
+        for _, w in self.workbench.items():
             w.update_controls()
         self.workbench[profile.settings['workbench']].update_controls()
 
