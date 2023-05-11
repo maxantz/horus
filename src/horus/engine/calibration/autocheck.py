@@ -126,7 +126,7 @@ class Autocheck(Calibration):
         x = np.array(list(patterns_sorted.keys()))
         y = np.array(list(patterns_sorted.values()))
         A = np.vstack([x, np.ones(len(x))]).T
-        m, c = np.linalg.lstsq(A, y)[0]
+        m, c = np.linalg.lstsq(A, y, rcond=-1)[0]
         pos = -c / m % 360
         if pos > 180:
             pos = pos - 360

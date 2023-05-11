@@ -173,7 +173,7 @@ class ScanningWorkbench(Workbench):
     def _point_cloud_callback(self, range, progress, point_cloud):
         if range > 0:
             self.gauge.SetRange(range)
-            self.gauge.SetValue(progress)
+            self.gauge.SetValue(int(progress))
         if point_cloud is not None:
             points, texture = point_cloud
             self.scene_view.append_point_cloud(points, texture)
@@ -278,7 +278,7 @@ class ScanningWorkbench(Workbench):
                     self,
                     "Low exposure values can cause a timing issue at the USB stack level on "
                     "v4l2_ioctl function in VIDIOC_S_CTRL mode. This is a Logitech issue on Linux",
-                    str(result), wx.OK | wx.ICON_ERROR)
+                    _(str(result)), wx.OK | wx.ICON_ERROR)
                 dlg.ShowModal()
                 dlg.Destroy()
 

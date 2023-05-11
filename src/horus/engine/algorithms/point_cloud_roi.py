@@ -90,8 +90,8 @@ class PointCloudROI(object):
         if self._center_v != 0 and self._center_u != 0 and self._show_center:
             thickness = 3
             v_max, u_max, _ = image.shape
-            cv2.line(image, (0, self._center_v), (u_max, self._center_v), (200, 0, 0), thickness)
-            cv2.line(image, (self._center_u, 0), (self._center_u, v_max), (200, 0, 0), thickness)
+            cv2.line(image, (0, int(self._center_v)), (int(u_max), int(self._center_v)), (200, 0, 0), thickness)
+            cv2.line(image, (int(self._center_u), 0), (int(self._center_u), int(v_max)), (200, 0, 0), thickness)
         return image
 
     def draw_roi(self, image):

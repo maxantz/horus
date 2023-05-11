@@ -163,7 +163,7 @@ class ResultPage(Page):
                             "Also you can set up the calibration's capture settings "
                             "in the \"Adjustment workbench\" until the pattern "
                             "is detected correctly"),
-                    _(result), wx.OK | wx.ICON_ERROR)
+                    _(str(result)), wx.OK | wx.ICON_ERROR)
                 dlg.ShowModal()
                 dlg.Destroy()
 

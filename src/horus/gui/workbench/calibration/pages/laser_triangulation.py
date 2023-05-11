@@ -67,7 +67,7 @@ class LaserTriangulationPages(wx.Panel):
             self.wait_cursor = wx.BusyCursor()
 
     def progress_calibration(self, progress):
-        self.video_page.gauge.SetValue(progress)
+        self.video_page.gauge.SetValue(int(progress))
 
     def after_calibration(self, response):
         ret, result = response
@@ -166,7 +166,7 @@ class ResultPage(Page):
                             "Also you can set up the calibration's settings "
                             "in the \"Adjustment workbench\" until the pattern "
                             "and the lasers are detected correctly"),
-                    _(result), wx.OK | wx.ICON_ERROR)
+                    _(str(result)), wx.OK | wx.ICON_ERROR)
                 dlg.ShowModal()
                 dlg.Destroy()
 

@@ -301,12 +301,7 @@ def unproject(winx, winy, winz, model_matrix, proj_matrix, viewport):
     final_matrix = np_model_matrix * np_proj_matrix
     final_matrix = numpy.linalg.inv(final_matrix)
 
-    print('######' + str(type(viewport)) + '######')
-
-    viewport = map(float, viewport)
-    # viewport = numpy.array(map(float, viewport))
-
-    print('######' + str(type(viewport)) + '######')
+    viewport = numpy.array(list(map(float, viewport)))
 
     if viewport[2] > 0 and viewport[3] > 0:
         vector = numpy.array([(winx - viewport[0]) / viewport[2] * 2.0 - 1.0,
@@ -327,7 +322,8 @@ def load_gl_texture(filename):
     glBindTexture(GL_TEXTURE_2D, tex)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-    img = wx.ImageFromBitmap(wx.Bitmap(get_path_for_image(filename)))
+    #img = wx.ImageFromBitmap(wx.Bitmap(get_path_for_image(filename))
+    img = wx.Bitmap(get_path_for_image(filename)).ConvertToImage()
     rgb_data = img.GetData()
     alpha_data = img.GetAlpha()
     if alpha_data is not None:

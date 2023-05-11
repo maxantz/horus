@@ -64,7 +64,7 @@ class CameraIntrinsics(Calibration):
     def calibrate(self):
         error = 0
         ret, cmat, dvec, rvecs, tvecs = cv2.calibrateCamera(
-            self.object_points, self.image_points, self.shape)
+            self.object_points, self.image_points, self.shape, self.camera_matrix, self.distortion_vector)
 
         if ret:
             # Compute calibration error

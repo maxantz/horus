@@ -153,12 +153,17 @@ class ImageCapture(object):
             else:
                 flush = self._flush_laser
             image_background = self.capture_image(flush=flush)
+            cv2.imwrite(os.path.join(os.path.expanduser('~'), 'Desktop', 'horus_tmp',
+                                     time.strftime("%Y%m%d-%H%M%S_bkg.bmp")), image_background)
         # Capture laser
         image = self._capture_laser(index)
-        cv2.imwrite(os.path.join(os.path.expanduser('~'), 'Desktop', time.strftime("%Y%m%d-%H%M%S.bmp")), image)
+        cv2.imwrite(os.path.join(os.path.expanduser('~'), 'Desktop', 'horus_tmp',
+                                 time.strftime("%Y%m%d-%H%M%S_lsr.bmp")), image)
         if image_background is not None:
             if image is not None:
                 image = cv2.subtract(image, image_background)
+        cv2.imwrite(os.path.join(os.path.expanduser('~'), 'Desktop', 'horus_tmp',
+                                 time.strftime("%Y%m%d-%H%M%S.bmp")), image)
         return image
 
     def capture_lasers(self):
