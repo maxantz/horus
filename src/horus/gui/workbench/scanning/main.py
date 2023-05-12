@@ -172,7 +172,7 @@ class ScanningWorkbench(Workbench):
 
     def _point_cloud_callback(self, range, progress, point_cloud):
         if range > 0:
-            self.gauge.SetRange(range)
+            self.gauge.SetRange(int(range))
             self.gauge.SetValue(int(progress))
         if point_cloud is not None:
             points, texture = point_cloud
